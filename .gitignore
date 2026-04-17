@@ -1,0 +1,21 @@
+node_modules
+.next
+.env
+.env.local
+.env.production
+*.log
+.DS_Store
+/out
+/build
+/coverage
+/dist
+.vercel
+next-env.d.ts
+
+# Generated files
+prisma/.prisma/
+.bin/
+
+# Uploaded images
+/public/uploads/*
+!/public/uploads/.gitkeep

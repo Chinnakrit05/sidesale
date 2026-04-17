@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ——— "The Playful Professional" Design System ——— */
+
+    /* Surface hierarchy (layered-paper) */
+    --surface:          28 20% 97%;    /* #fbf9f8 – base layer */
+    --surface-low:      20 13% 96%;    /* #f6f3f2 – section blocks */
+    --surface-lowest:   0 0% 100%;     /* #ffffff – cards, inputs, modals */
+    --surface-high:     25 12% 92%;    /* #ece7e3 – nested surface bg */
+    --surface-highest:  24 10% 88%;    /* #e2dcd8 – secondary buttons */
+
+    /* On-surface text — never pure black */
+    --on-surface:       180 4% 11%;    /* #1b1c1c */
+    --on-primary-container: 27 100% 19%; /* #623200 – price-tag text */
+
+    /* Primary = deep warm orange → vibrant orange gradient */
+    --primary:           27 100% 28%;  /* #904d00 */
+    --primary-foreground: 0 0% 100%;   /* white on primary */
+    --primary-container: 33 100% 50%;  /* #ff8c00 – vibrant orange */
+
+    /* Outline */
+    --outline-variant:   27 38% 77%;   /* #ddc1ae */
+
+    /* ——— Mapped shadcn tokens ——— */
+    --background:        28 20% 97%;   /* same as surface */
+    --foreground:        180 4% 11%;   /* on-surface */
+
+    --card:              0 0% 100%;    /* surface-lowest */
+    --card-foreground:   180 4% 11%;
+    --popover:           0 0% 100%;
+    --popover-foreground: 180 4% 11%;
+
+    --secondary:         24 10% 88%;   /* surface-highest */
+    --secondary-foreground: 180 4% 11%;
+
+    --muted:             20 13% 96%;   /* surface-low */
+    --muted-foreground:  20 5% 45%;
+
+    --accent:            30 30% 95%;   /* warm-tinted accent */
+    --accent-foreground: 180 4% 11%;
+
+    --destructive:       0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border:            27 38% 77%;   /* outline-variant */
+    --input:             27 38% 77%;
+    --ring:              33 100% 50%;  /* primary-container focus ring */
+    --radius:            1rem;         /* Kawaii-friendly roundedness */
+  }
+
+  .dark {
+    --surface:          220 10% 8%;
+    --surface-low:      220 10% 11%;
+    --surface-lowest:   220 10% 13%;
+    --surface-high:     220 10% 16%;
+    --surface-highest:  220 8% 20%;
+
+    --on-surface:       30 10% 92%;
+    --on-primary-container: 33 100% 70%;
+
+    --primary:           33 100% 50%;  /* swap: container becomes primary */
+    --primary-foreground: 220 10% 8%;
+    --primary-container: 27 100% 28%;
+
+    --outline-variant:   25 12% 25%;
+
+    --background:        220 10% 8%;
+    --foreground:        30 10% 92%;
+    --card:              220 10% 13%;
+    --card-foreground:   30 10% 92%;
+    --popover:           220 10% 13%;
+    --popover-foreground: 30 10% 92%;
+
+    --secondary:         220 8% 20%;
+    --secondary-foreground: 30 10% 92%;
+
+    --muted:             220 10% 16%;
+    --muted-foreground:  220 5% 55%;
+
+    --accent:            25 15% 16%;
+    --accent-foreground: 30 10% 92%;
+
+    --destructive:       0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border:            25 12% 25%;
+    --input:             25 12% 25%;
+    --ring:              33 100% 50%;
+    --radius:            1rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html { -webkit-tap-highlight-color: transparent; }
+
+  /* Editorial type scale */
+  h1, h2, h3 { font-family: 'Plus Jakarta Sans', var(--font-sans, sans-serif); }
+}
+
+/* Gradient CTA utility */
+@layer utilities {
+  .btn-gradient {
+    /* background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-container))); */
+    background: hsl(var(--primary-container));
+
+  }
+  .ghost-border {
+    box-shadow: inset 0 0 0 1px hsl(var(--outline-variant) / 0.15);
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+}

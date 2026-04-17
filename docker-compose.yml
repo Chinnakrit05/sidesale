@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sidesale}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sidesale_change_me}
+      POSTGRES_DB: ${POSTGRES_DB:-sidesale}
+    volumes:
+      - sidesale_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sidesale} -d ${POSTGRES_DB:-sidesale}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # ⚠️  Only expose DB port for local dev. Remove in production.
+    # ports:
+    #   - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sidesale}:${POSTGRES_PASSWORD:-sidesale_change_me}@db:5432/${POSTGRES_DB:-sidesale}?schema=public
+    volumes:
+      - sidesale_uploads:/app/public/uploads
+    ports:
+      - "3000:3000"
+
+  # ⚠️  Adminer is commented out for security.
+  # Uncomment ONLY for local development — never expose in production.
+  # adminer:
+  #   image: adminer:latest
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "8080:8080"
+
+volumes:
+  sidesale_db:
+  sidesale_uploads:

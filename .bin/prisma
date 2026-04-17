@@ -1,0 +1,2 @@
+#\!/bin/bash
+exec node node_modules/prisma/build/index.js "$@"
