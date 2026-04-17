@@ -174,8 +174,8 @@ export function CustomersClient({ initial }: { initial: CustomerRow[] }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
-        <Button onClick={openCreate}>
+        <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
+        <Button onClick={openCreate} size="sm">
           <Plus className="h-4 w-4" /> {t("addCustomer")}
         </Button>
       </div>
@@ -190,16 +190,55 @@ export function CustomersClient({ initial }: { initial: CustomerRow[] }) {
         />
       </div>
 
-      <Card className="overflow-x-auto">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-2">
+        {filtered.map((c) => (
+          <Card key={c.id} className="p-3">
+            <div className="flex items-start gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-sm">{c.name}</span>
+                  <span className="text-xs text-muted-foreground font-mono">{c.code}</span>
+                </div>
+                <div className="text-xs text-muted-foreground mt-0.5">{c.phone || "—"}</div>
+                <div className="flex items-center gap-3 mt-1.5">
+                  <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold text-sm">
+                    <Star className="h-3 w-3" /> {c.points.toLocaleString()}
+                  </span>
+                  <span className="text-xs text-muted-foreground">{formatMoney(c.totalSpent)}</span>
+                  <span className="text-xs text-muted-foreground">{c.visitCount} visits</span>
+                </div>
+              </div>
+              <div className="flex gap-1 shrink-0">
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openPoints(c)}>
+                  <History className="h-4 w-4" />
+                </Button>
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(c)}>
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => remove(c.id)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ))}
+        {filtered.length === 0 && (
+          <div className="text-center text-muted-foreground py-8">{tc("noData")}</div>
+        )}
+      </div>
+
+      {/* Desktop/iPad table view */}
+      <Card className="hidden sm:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left">
               <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("code")}</th>
               <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("name")}</th>
-              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("phone")}</th>
+              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider hidden md:table-cell">{t("phone")}</th>
               <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("points")}</th>
-              <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("totalSpent")}</th>
-              <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("visits")}</th>
+              <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider hidden md:table-cell">{t("totalSpent")}</th>
+              <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider hidden lg:table-cell">{t("visits")}</th>
               <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{tc("actions")}</th>
             </tr>
           </thead>
@@ -208,14 +247,14 @@ export function CustomersClient({ initial }: { initial: CustomerRow[] }) {
               <tr key={c.id} className={idx % 2 === 0 ? "bg-surface-low/40" : ""}>
                 <td className="p-3 font-mono text-xs">{c.code}</td>
                 <td className="p-3 font-medium">{c.name}</td>
-                <td className="p-3 text-muted-foreground">{c.phone || "—"}</td>
+                <td className="p-3 text-muted-foreground hidden md:table-cell">{c.phone || "—"}</td>
                 <td className="p-3 text-right">
                   <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold">
                     <Star className="h-3 w-3" /> {c.points.toLocaleString()}
                   </span>
                 </td>
-                <td className="p-3 text-right">{formatMoney(c.totalSpent)}</td>
-                <td className="p-3 text-right text-muted-foreground">{c.visitCount}</td>
+                <td className="p-3 text-right hidden md:table-cell">{formatMoney(c.totalSpent)}</td>
+                <td className="p-3 text-right text-muted-foreground hidden lg:table-cell">{c.visitCount}</td>
                 <td className="p-3 text-right">
                   <div className="inline-flex gap-1">
                     <Button size="icon" variant="ghost" onClick={() => openPoints(c)} title={t("pointHistory")}>

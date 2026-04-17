@@ -206,16 +206,16 @@ export function ProductsClient({ initial, categories }: { initial: ProductRow[];
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
-        <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
+        <div className="flex gap-2 flex-wrap">
           <Button variant="outline" size="sm" onClick={handleExport}>
-            <Download className="h-4 w-4" /> {t("export")}
+            <Download className="h-4 w-4" /> <span className="hidden sm:inline">{t("export")}</span>
           </Button>
           <label>
             <Button variant="outline" size="sm" asChild disabled={importing}>
               <span>
-                <Upload className="h-4 w-4" /> {importing ? t("importing") : t("import")}
+                <Upload className="h-4 w-4" /> <span className="hidden sm:inline">{importing ? t("importing") : t("import")}</span>
               </span>
             </Button>
             <input
@@ -229,7 +229,7 @@ export function ProductsClient({ initial, categories }: { initial: ProductRow[];
               }}
             />
           </label>
-          <Button onClick={openCreate}>
+          <Button onClick={openCreate} size="sm">
             <Plus className="h-4 w-4" /> {t("addProduct")}
           </Button>
         </div>
@@ -266,7 +266,49 @@ export function ProductsClient({ initial, categories }: { initial: ProductRow[];
         />
       </div>
 
-      <Card className="overflow-x-auto bg-surface-lowest">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-2">
+        {filtered.map((p) => (
+          <Card key={p.id} className="bg-surface-lowest p-3">
+            <div className="flex items-center gap-3">
+              {p.imageUrl ? (
+                <img src={p.imageUrl} alt={p.name} className="w-12 h-12 rounded-xl object-cover shrink-0" />
+              ) : (
+                <div className="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary font-semibold text-sm shrink-0">
+                  {p.name.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-sm line-clamp-1">{p.name}</div>
+                <div className="text-xs text-muted-foreground font-mono">{p.sku}</div>
+                <div className="flex items-center gap-3 mt-1">
+                  <span className="font-bold text-sm text-on-primary-container">{formatMoney(p.price)}</span>
+                  <span className={cn("text-xs", p.stock <= p.lowStockThreshold ? "text-destructive font-semibold" : "text-muted-foreground")}>
+                    {t("stock")}: {p.stock}
+                  </span>
+                  {!p.active && (
+                    <span className="rounded-full px-2 py-0.5 text-[10px] bg-muted text-muted-foreground">{tc("no")}</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 shrink-0">
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(p)}>
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => remove(p.id)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ))}
+        {filtered.length === 0 && (
+          <div className="text-center text-muted-foreground py-8">{tc("noData")}</div>
+        )}
+      </div>
+
+      {/* Desktop/iPad table view */}
+      <Card className="hidden sm:block overflow-x-auto bg-surface-lowest">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left">
@@ -275,7 +317,7 @@ export function ProductsClient({ initial, categories }: { initial: ProductRow[];
               <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("name")}</th>
               <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("price")}</th>
               <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("stock")}</th>
-              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("active")}</th>
+              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider hidden md:table-cell">{t("active")}</th>
               <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{tc("actions")}</th>
             </tr>
           </thead>
@@ -302,7 +344,7 @@ export function ProductsClient({ initial, categories }: { initial: ProductRow[];
                 <td className={cn("p-3 text-right", p.stock <= p.lowStockThreshold && "text-destructive font-semibold")}>
                   {p.stock} <span className="text-xs text-muted-foreground font-normal">{tu(p.unit || "piece")}</span>
                 </td>
-                <td className="p-3">
+                <td className="p-3 hidden md:table-cell">
                   <span
                     className={cn(
                       "inline-block rounded-full px-2 py-0.5 text-xs",

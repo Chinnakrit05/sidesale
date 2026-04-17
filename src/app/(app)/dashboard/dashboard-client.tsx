@@ -57,29 +57,29 @@ export function DashboardClient({ stats, trend, top, recent }: Props) {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         {statCards.map((s: typeof statCards[0]) => (
           <Card key={s.label} className="bg-surface-lowest">
-            <CardContent className="p-5 flex items-start gap-3">
-              <div className={cn("rounded-xl p-2.5", s.bg, s.color)}>
-                <s.icon className="h-5 w-5" strokeWidth={2} />
+            <CardContent className="p-3 sm:p-5 flex items-start gap-2 sm:gap-3">
+              <div className={cn("rounded-xl p-2 sm:p-2.5 shrink-0", s.bg, s.color)}>
+                <s.icon className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} />
               </div>
-              <div>
-                <div className="text-xs text-muted-foreground">{s.label}</div>
-                <div className="text-xl font-bold text-on-primary-container">{s.value}</div>
+              <div className="min-w-0">
+                <div className="text-[10px] sm:text-xs text-muted-foreground truncate">{s.label}</div>
+                <div className="text-base sm:text-xl font-bold text-on-primary-container truncate">{s.value}</div>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 gap-3 sm:gap-4">
         <Card className="lg:col-span-2 bg-surface-lowest">
-          <CardHeader>
-            <CardTitle>{t("salesTrend")}</CardTitle>
+          <CardHeader className="px-3 sm:px-6">
+            <CardTitle className="text-base sm:text-lg">{t("salesTrend")}</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="h-64">
+          <CardContent className="px-1 sm:px-6">
+            <div className="h-48 sm:h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={trend}>
                   <defs>
@@ -99,14 +99,14 @@ export function DashboardClient({ stats, trend, top, recent }: Props) {
         </Card>
 
         <Card className="bg-surface-lowest">
-          <CardHeader>
-            <CardTitle>{t("topProducts")}</CardTitle>
+          <CardHeader className="px-3 sm:px-6">
+            <CardTitle className="text-base sm:text-lg">{t("topProducts")}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-1 sm:px-6">
             {top.length === 0 ? (
               <p className="text-sm text-muted-foreground">{tc("noData")}</p>
             ) : (
-              <div className="h-64">
+              <div className="h-48 sm:h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={top} layout="vertical">
                     <XAxis type="number" tick={{ fontSize: 11 }} />
@@ -127,39 +127,39 @@ export function DashboardClient({ stats, trend, top, recent }: Props) {
       </div>
 
       <Card className="bg-surface-lowest">
-        <CardHeader>
-          <CardTitle>{t("recentSales")}</CardTitle>
+        <CardHeader className="px-3 sm:px-6">
+          <CardTitle className="text-base sm:text-lg">{t("recentSales")}</CardTitle>
         </CardHeader>
-        <CardContent className="overflow-x-auto">
-          <table className="w-full text-sm">
+        <CardContent className="overflow-x-auto px-0 sm:px-6">
+          <table className="w-full text-sm min-w-[500px]">
             <thead>
               <tr className="text-left">
-                <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">No.</th>
-                <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Cashier</th>
-                <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Items</th>
-                <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Method</th>
-                <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">Total</th>
-                <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Date</th>
+                <th className="p-2 sm:p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">No.</th>
+                <th className="p-2 sm:p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider hidden sm:table-cell">Cashier</th>
+                <th className="p-2 sm:p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Items</th>
+                <th className="p-2 sm:p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Method</th>
+                <th className="p-2 sm:p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">Total</th>
+                <th className="p-2 sm:p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Date</th>
               </tr>
             </thead>
             <tbody>
               {recent.map((r: typeof recent[0], idx: number) => (
                 <tr key={r.id} className={idx % 2 === 0 ? "bg-surface-low/50" : ""}>
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3">
                     <Link href={`/receipt/${r.id}`} className="text-primary hover:underline font-mono text-xs">
                       {r.number}
                     </Link>
                     {r.status === "VOID" && (
-                      <span className="ml-1.5 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold bg-destructive/15 text-destructive">
+                      <span className="ml-1 inline-block rounded-full px-1.5 py-0.5 text-[10px] font-bold bg-destructive/15 text-destructive">
                         VOID
                       </span>
                     )}
                   </td>
-                  <td className="p-3">{r.cashier}</td>
-                  <td className="p-3">{r.items}</td>
-                  <td className="p-3">
+                  <td className="p-2 sm:p-3 hidden sm:table-cell">{r.cashier}</td>
+                  <td className="p-2 sm:p-3">{r.items}</td>
+                  <td className="p-2 sm:p-3">
                     <span className={cn(
-                      "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
+                      "inline-block rounded-full px-2 py-0.5 text-xs font-medium",
                       r.method === "CASH"
                         ? "bg-green-500/15 text-green-700 dark:text-green-400"
                         : "bg-primary-container/15 text-primary"
@@ -167,14 +167,14 @@ export function DashboardClient({ stats, trend, top, recent }: Props) {
                       {r.method}
                     </span>
                   </td>
-                  <td className="p-3 text-right font-semibold text-on-primary-container">
+                  <td className="p-2 sm:p-3 text-right font-semibold text-on-primary-container">
                     {r.status === "VOID" ? (
                       <span className="text-destructive line-through">{formatMoney(r.total)}</span>
                     ) : (
                       formatMoney(r.total)
                     )}
                   </td>
-                  <td className="p-3 text-muted-foreground text-xs">{formatDate(r.createdAt)}</td>
+                  <td className="p-2 sm:p-3 text-muted-foreground text-xs whitespace-nowrap">{formatDate(r.createdAt)}</td>
                 </tr>
               ))}
               {recent.length === 0 && (

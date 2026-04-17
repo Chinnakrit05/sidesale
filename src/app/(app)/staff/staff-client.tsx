@@ -65,8 +65,8 @@ export function StaffClient({ initial }: { initial: Staff[] }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
-        <Button onClick={openCreate}><Plus className="h-4 w-4" strokeWidth={2} /> {t("addStaff")}</Button>
+        <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
+        <Button onClick={openCreate} size="sm"><Plus className="h-4 w-4" strokeWidth={2} /> {t("addStaff")}</Button>
       </div>
 
       <Card className="overflow-x-auto">
@@ -74,17 +74,20 @@ export function StaffClient({ initial }: { initial: Staff[] }) {
           <thead>
             <tr className="text-left">
               <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("name")}</th>
-              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("email")}</th>
+              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider hidden sm:table-cell">{t("email")}</th>
               <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("role")}</th>
-              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">{t("active")}</th>
+              <th className="p-3 text-muted-foreground font-medium text-xs uppercase tracking-wider hidden sm:table-cell">{t("active")}</th>
               <th className="p-3 text-right text-muted-foreground font-medium text-xs uppercase tracking-wider">{tc("actions")}</th>
             </tr>
           </thead>
           <tbody>
             {items.map((s, idx) => (
               <tr key={s.id} className={idx % 2 === 0 ? "bg-surface-low/40" : ""}>
-                <td className="p-3 font-medium">{s.name}</td>
-                <td className="p-3">{s.email}</td>
+                <td className="p-3">
+                  <div className="font-medium">{s.name}</div>
+                  <div className="text-xs text-muted-foreground sm:hidden">{s.email}</div>
+                </td>
+                <td className="p-3 hidden sm:table-cell">{s.email}</td>
                 <td className="p-3">
                   <span className={cn(
                     "inline-block rounded-full px-2 py-0.5 text-xs",
@@ -93,7 +96,7 @@ export function StaffClient({ initial }: { initial: Staff[] }) {
                     {tRole(s.role)}
                   </span>
                 </td>
-                <td className="p-3">
+                <td className="p-3 hidden sm:table-cell">
                   <span className={cn(
                     "inline-block rounded-full px-2 py-0.5 text-xs",
                     s.active ? "bg-green-500/15 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground"

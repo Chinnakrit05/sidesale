@@ -71,7 +71,7 @@ export function StockClient({
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
+      <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
 
       <div className="grid lg:grid-cols-2 gap-4">
         <Card>

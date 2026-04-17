@@ -121,6 +121,18 @@
   }
 }
 
+/* Safe area for devices with bottom notch (iPhone etc.) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Responsive table: card-style on mobile */
+@layer utilities {
+  .responsive-table-wrapper {
+    @apply overflow-x-auto -mx-3 sm:mx-0;
+  }
+}
+
 @media print {
   .no-print { display: none !important; }
 }

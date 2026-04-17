@@ -47,7 +47,7 @@ export function SettingsClient({ initial }: { initial: Settings }) {
 
   return (
     <div className="max-w-lg mx-auto space-y-4">
-      <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
+      <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
       <Card>
         <CardContent className="p-6 space-y-4">
           <div className="space-y-1">

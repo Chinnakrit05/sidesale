@@ -101,8 +101,8 @@ export function CategoriesClient({ initial }: { initial: CategoryRow[] }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
-        <Button onClick={openCreate}>
+        <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
+        <Button onClick={openCreate} size="sm">
           <Plus className="h-4 w-4" strokeWidth={2} /> {t("addCategory")}
         </Button>
       </div>

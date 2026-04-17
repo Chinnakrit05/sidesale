@@ -76,7 +76,7 @@ export function AuditClient({ initial }: { initial: LogRow[] }) {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
+      <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
 
       <div className="flex gap-1.5 overflow-x-auto pb-1">
         <button
@@ -102,7 +102,45 @@ export function AuditClient({ initial }: { initial: LogRow[] }) {
         ))}
       </div>
 
-      <Card className="overflow-x-auto">
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-2">
+        {filtered.map((l) => (
+          <Card key={l.id} className="p-3">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className={cn("inline-block rounded-full px-2 py-0.5 text-xs", ACTION_COLORS[l.action] || "bg-muted")}>
+                    {t(`action_${l.action}`, { fallback: l.action })}
+                  </span>
+                  <span className="text-xs font-medium">{l.entity}</span>
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">{l.userName} &middot; {formatDate(l.createdAt)}</div>
+              </div>
+            </div>
+            {l.changes && (
+              <div className="mt-2">
+                <button
+                  onClick={() => setExpanded(expanded === l.id ? null : l.id)}
+                  className="text-xs text-primary hover:underline"
+                >
+                  {expanded === l.id ? t("hideChanges") : t("showChanges")}
+                </button>
+                {expanded === l.id && (
+                  <div className="mt-1.5 p-2 bg-surface-low rounded-xl">
+                    {renderChanges(l.changes)}
+                  </div>
+                )}
+              </div>
+            )}
+          </Card>
+        ))}
+        {filtered.length === 0 && (
+          <div className="text-center text-muted-foreground py-8">{tc("noData")}</div>
+        )}
+      </div>
+
+      {/* Desktop/iPad table */}
+      <Card className="hidden sm:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left">

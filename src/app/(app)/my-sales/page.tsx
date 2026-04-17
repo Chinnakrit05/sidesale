@@ -27,19 +27,19 @@ export default async function MySalesPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">{t("title")}</h1>
+      <h1 className="text-xl sm:text-2xl font-bold">{t("title")}</h1>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4">
         <Card>
-          <CardContent className="p-4">
-            <div className="text-xs text-muted-foreground">{t("today")} — {tc("total")}</div>
-            <div className="text-2xl font-bold">{formatMoney(todayTotal)}</div>
+          <CardContent className="p-3 sm:p-4">
+            <div className="text-[10px] sm:text-xs text-muted-foreground">{t("today")} — {tc("total")}</div>
+            <div className="text-lg sm:text-2xl font-bold">{formatMoney(todayTotal)}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="text-xs text-muted-foreground">{t("today")} — Orders</div>
-            <div className="text-2xl font-bold">{todaySales.length}</div>
+          <CardContent className="p-3 sm:p-4">
+            <div className="text-[10px] sm:text-xs text-muted-foreground">{t("today")} — Orders</div>
+            <div className="text-lg sm:text-2xl font-bold">{todaySales.length}</div>
           </CardContent>
         </Card>
       </div>

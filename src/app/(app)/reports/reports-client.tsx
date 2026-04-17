@@ -52,23 +52,23 @@ export function ReportsClient({ dateFrom, dateTo, summary, byProduct, byCashier,
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <h1 className="text-2xl font-bold font-display">{t("title")}</h1>
-        <Button variant="outline" onClick={exportCSV}>
-          <Download className="h-4 w-4" strokeWidth={2} /> {t("export")}
+        <h1 className="text-xl sm:text-2xl font-bold font-display">{t("title")}</h1>
+        <Button variant="outline" size="sm" onClick={exportCSV}>
+          <Download className="h-4 w-4" strokeWidth={2} /> <span className="hidden sm:inline">{t("export")}</span>
         </Button>
       </div>
 
       <Card>
-        <CardContent className="p-4 flex flex-wrap items-end gap-3">
-          <div className="space-y-1">
-            <Label>{t("dateFrom")}</Label>
+        <CardContent className="p-3 sm:p-4 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-end gap-2 sm:gap-3">
+          <div className="space-y-1 flex-1 min-w-[140px]">
+            <Label className="text-xs">{t("dateFrom")}</Label>
             <Input type="date" defaultValue={dateFrom} id="rf" />
           </div>
-          <div className="space-y-1">
-            <Label>{t("dateTo")}</Label>
+          <div className="space-y-1 flex-1 min-w-[140px]">
+            <Label className="text-xs">{t("dateTo")}</Label>
             <Input type="date" defaultValue={dateTo} id="rt" />
           </div>
-          <Button onClick={() => {
+          <Button className="sm:w-auto" onClick={() => {
             const from = (document.getElementById("rf") as HTMLInputElement).value;
             const to = (document.getElementById("rt") as HTMLInputElement).value;
             applyFilter(from, to);
@@ -78,14 +78,14 @@ export function ReportsClient({ dateFrom, dateTo, summary, byProduct, byCashier,
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {statCards.map((s) => (
           <Card key={s.label}>
-            <CardContent className="p-4 flex items-start gap-3">
-              <div className="rounded-lg p-2 bg-muted text-primary"><s.icon className="h-5 w-5" strokeWidth={2} /></div>
-              <div>
-                <div className="text-xs text-muted-foreground">{s.label}</div>
-                <div className="text-xl font-bold">{s.value}</div>
+            <CardContent className="p-2.5 sm:p-4 flex flex-col sm:flex-row items-center sm:items-start gap-1.5 sm:gap-3">
+              <div className="rounded-lg p-2 bg-muted text-primary shrink-0"><s.icon className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} /></div>
+              <div className="text-center sm:text-left">
+                <div className="text-[10px] sm:text-xs text-muted-foreground">{s.label}</div>
+                <div className="text-sm sm:text-xl font-bold">{s.value}</div>
               </div>
             </CardContent>
           </Card>

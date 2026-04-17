@@ -41,15 +41,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-surface">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 bg-surface">
       <div className="absolute top-4 right-4 flex gap-1">
         <LanguageToggle />
         <ThemeToggle />
       </div>
 
       {/* Brand mark */}
-      <div className="flex items-center gap-3 mb-8">
-        <img src="/logo.png" alt="SideSale" className="h-12 w-12 rounded-2xl shadow-ambient" />
+      <div className="flex items-center gap-3 mb-6 sm:mb-8">
+        <img src="/logo.png" alt="SideSale" className="h-10 w-10 sm:h-12 sm:w-12 rounded-2xl shadow-ambient" />
         <div>
           <div className="text-2xl font-bold font-display text-on-surface">{t("app.name")}</div>
           <div className="text-xs text-muted-foreground">{t("app.tagline")}</div>
